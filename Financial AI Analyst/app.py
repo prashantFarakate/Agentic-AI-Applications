@@ -86,8 +86,11 @@ if prompt := st.chat_input("Ask me about stocks, finance, or search the web...")
     # Get agent response
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            response = active_agent.run(prompt)
-            result = response.content if response else "Sorry, I couldn't process that request."
+            try:
+                response = active_agent.run(prompt)
+                result = response.content if response else "Sorry, I couldn't process that request."
+            except Exception:
+                result = "⚠️ The agent encountered an error processing your request. Try a simpler query like 'What is the stock price of NVDA?'"
         st.markdown(result)
 
     # Add assistant message
